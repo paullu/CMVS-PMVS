@@ -24,10 +24,10 @@ extern "C"
 */
 
 namespace CMVS {
-class Cgraclus {
+class Graclus {
  public:
-  Cgraclus(void);
-  virtual ~Cgraclus();
+  Graclus(void);
+  virtual ~Graclus();
 
   // Threads free. no weights
   static void run(std::vector<idxtype>& xadj,

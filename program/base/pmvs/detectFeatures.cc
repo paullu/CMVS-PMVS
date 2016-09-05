@@ -18,7 +18,7 @@ DetectFeatures::~DetectFeatures() {
   mtx_destroy(&m_rwlock);
 }
 
-void DetectFeatures::run(const CphotoSetS& pss, const int num,
+void DetectFeatures::run(const PhotoSetS& pss, const int num,
                           const int csize, const int level,
                           const int CPU) {
   m_ppss = &pss;

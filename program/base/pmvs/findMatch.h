@@ -142,7 +142,7 @@ class FindMatch {
   // Core members
   //----------------------------------------------------------------------
   // Images
-  Image::CphotoSetS m_pss;
+  Image::PhotoSetS m_pss;
   // Patch organizer
   PatchOrganizerS m_pos;
   

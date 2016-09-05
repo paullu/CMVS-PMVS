@@ -12,7 +12,7 @@
 #include "point.h"
 
 namespace Image {
-  class CphotoSetS;
+  class PhotoSetS;
 };
 
 namespace PMVS3 {
@@ -22,14 +22,14 @@ class DetectFeatures {
   DetectFeatures(void);
   virtual ~DetectFeatures();
 
-  void run(const Image::CphotoSetS& pss,
+  void run(const Image::PhotoSetS& pss,
            const int num, const int csize, const int level,
            const int CPU = 1);
 
   std::vector<std::vector<Point> > m_points;
   
  protected:
-  const Image::CphotoSetS* m_ppss;
+  const Image::PhotoSetS* m_ppss;
   int m_csize;
   int m_level;
   

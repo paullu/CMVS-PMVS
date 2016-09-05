@@ -6,10 +6,10 @@
 
 namespace Image {
 
-class CphotoSetS {
+class PhotoSetS {
  public:
-  CphotoSetS(void);
-  virtual ~CphotoSetS();
+  PhotoSetS(void);
+  virtual ~PhotoSetS();
 
   void init(const std::vector<int>& images, const std::string prefix,
             const int maxLevel, const int size, const int alloc);
@@ -71,7 +71,7 @@ class CphotoSetS {
   
   // Take care of indexes
   std::vector<int> m_images;
-  std::vector<Cphoto> m_photos;
+  std::vector<Photo> m_photos;
 
   int image2index(const int image) const;
   std::map<int, int> m_dict;
@@ -95,72 +95,72 @@ class CphotoSetS {
  protected:  
 }; 
  
-Vec3f CphotoSetS::project(const int index, const Vec4f& coord,
+Vec3f PhotoSetS::project(const int index, const Vec4f& coord,
                                     const int level) const{
   return m_photos[index].project(coord, level);
 };
 
-Vec3f CphotoSetS::mult(const int index, const Vec4f& coord,
+Vec3f PhotoSetS::mult(const int index, const Vec4f& coord,
                                     const int level) const{
   return m_photos[index].mult(coord, level);
 };
  
-int CphotoSetS::getWidth(const int index, const int level) const {
+int PhotoSetS::getWidth(const int index, const int level) const {
   return m_photos[index].getWidth(level);
 };
  
-int CphotoSetS::getHeight(const int index, const int level) const {
+int PhotoSetS::getHeight(const int index, const int level) const {
   return m_photos[index].getHeight(level);
 };
 
-Vec3f CphotoSetS::getColor(const Vec4f& coord, const int index,
+Vec3f PhotoSetS::getColor(const Vec4f& coord, const int index,
                           const int level) const {
   return m_photos[index].getColor(coord, level);
 };
  
-Vec3f CphotoSetS::getColor(const int index, const float fx, const float fy,
+Vec3f PhotoSetS::getColor(const int index, const float fx, const float fy,
                           const int level) const {
   return m_photos[index].Image::Cimage::getColor(fx, fy, level);
 };
  
-Vec3f CphotoSetS::getColor(const int index, const int ix, const int iy,
+Vec3f PhotoSetS::getColor(const int index, const int ix, const int iy,
                           const int level) const {
   return m_photos[index].Image::Cimage::getColor(ix, iy, level);
 };
  
-int CphotoSetS::getMask(const Vec4f& coord, const int level) const {
+int PhotoSetS::getMask(const Vec4f& coord, const int level) const {
   for (int index = 0; index < m_num; ++index)
     if (getMask(coord, index, level) == 0)
       return 0;
   return 1;
 };
  
-int CphotoSetS::getMask(const Vec4f& coord, const int index,
+int PhotoSetS::getMask(const Vec4f& coord, const int index,
                        const int level) const {
   return m_photos[index].getMask(coord, level);
 };
  
-int CphotoSetS::getMask(const int index, const float fx, const float fy,
+int PhotoSetS::getMask(const int index, const float fx, const float fy,
                        const int level) const {
   return m_photos[index].Image::Cimage::getMask(fx, fy, level);
 };
 
-int CphotoSetS::getMask(const int index, const int ix, const int iy,
+int PhotoSetS::getMask(const int index, const int ix, const int iy,
                        const int level) const {
   return m_photos[index].Image::Cimage::getMask(ix, iy, level); 
 };
 
-int CphotoSetS::getEdge(const Vec4f& coord, const int index,
+int PhotoSetS::getEdge(const Vec4f& coord, const int index,
                        const int level) const {
   return m_photos[index].getEdge(coord, level);
 };
  
-int CphotoSetS::getEdge(const int index, const float fx, const float fy,
+int PhotoSetS::getEdge(const int index, const float fx, const float fy,
                        const int level) const {
   return m_photos[index].Image::Cimage::getEdge(fx, fy, level);
 };
 
-int CphotoSetS::getEdge(const int index, const int ix, const int iy,
+int PhotoSetS::getEdge(const int index, const int ix, const int iy,
                        const int level) const {
   return m_photos[index].Image::Cimage::getEdge(ix, iy, level); 
 };
