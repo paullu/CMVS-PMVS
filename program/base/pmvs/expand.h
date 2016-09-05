@@ -7,12 +7,12 @@
 #include "patchOrganizerS.h"
 
 namespace PMVS3 {
-class CfindMatch;
+class FindMatch;
   
-class Cexpand {
+class Expand {
  public:
-  Cexpand(CfindMatch& findMatch);
-  ~Cexpand() {};
+  Expand(FindMatch& findMatch);
+  ~Expand() {};
 
   void init(void);
   void run(void);
@@ -34,7 +34,7 @@ class Cexpand {
   std::priority_queue<Patch::Ppatch, std::vector<Patch::Ppatch>, P_compare>
     m_queue;
   
-  CfindMatch& m_fm;
+  FindMatch& m_fm;
   
   //-----------------------------------------------------------------
   // thread related

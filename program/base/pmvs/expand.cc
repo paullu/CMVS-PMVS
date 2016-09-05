@@ -13,13 +13,13 @@ using namespace PMVS3;
 using namespace std;
 using namespace Patch;
 
-Cexpand::Cexpand(CfindMatch& findMatch) : m_fm(findMatch) {
+Expand::Expand(FindMatch& findMatch) : m_fm(findMatch) {
 }
 
-void Cexpand::init(void) {
+void Expand::init(void) {
 }
 
-void Cexpand::run(void) {
+void Expand::run(void) {
   m_fm.m_count = 0;
   m_fm.m_jobs.clear();
   m_ecounts.resize(m_fm.m_CPU);
@@ -68,12 +68,12 @@ void Cexpand::run(void) {
        << 100 * (pass + fail1) / (float)trial << endl;
   
 }
-int Cexpand::expandThreadTmp(void* arg) {
-  ((Cexpand*)arg)->expandThread();
+int Expand::expandThreadTmp(void* arg) {
+  ((Expand*)arg)->expandThread();
   return 0;
 }
 
-void Cexpand::expandThread(void) {
+void Expand::expandThread(void) {
   mtx_lock(&m_fm.m_lock);
   const int id = m_fm.m_count++;
   mtx_unlock(&m_fm.m_lock);
@@ -108,7 +108,7 @@ void Cexpand::expandThread(void) {
   }
 }
 
-void Cexpand::findEmptyBlocks(const Ppatch& ppatch,
+void Expand::findEmptyBlocks(const Ppatch& ppatch,
 			      std::vector<std::vector<Vec4f> >& canCoords) {
   // dnum must be at most 8, because m_dflag is char
   const int dnum = 6;
@@ -187,7 +187,7 @@ void Cexpand::findEmptyBlocks(const Ppatch& ppatch,
   }
 }
 
-float Cexpand::computeRadius(const Patch::Cpatch& patch) {
+float Expand::computeRadius(const Patch::Cpatch& patch) {
   const int minnum = 2;
   vector<float> units;
   m_fm.m_optim.computeUnits(patch, units);
@@ -205,7 +205,7 @@ float Cexpand::computeRadius(const Patch::Cpatch& patch) {
   return (*(vftmp.begin() + minnum - 1)) * m_fm.m_csize;
 }
 
-int Cexpand::expandSub(const Ppatch& orgppatch, const int id,
+int Expand::expandSub(const Ppatch& orgppatch, const int id,
                        const Vec4f& canCoord) {
   // Choose the closest one
   Cpatch patch;
@@ -269,7 +269,7 @@ int Cexpand::expandSub(const Ppatch& orgppatch, const int id,
   return 0;
 }
 
-int Cexpand::checkCounts(Patch::Cpatch& patch) {
+int Expand::checkCounts(Patch::Cpatch& patch) {
   int full = 0;  int empty = 0;
 
   vector<int>::iterator begin = patch.m_images.begin();
@@ -329,7 +329,7 @@ int Cexpand::checkCounts(Patch::Cpatch& patch) {
   }
 }
 
-int Cexpand::updateCounts(const Cpatch& patch) {
+int Expand::updateCounts(const Cpatch& patch) {
   // Use m_images and m_vimages. Loosen when to set add = 1
   int full = 0;  int empty = 0;
 

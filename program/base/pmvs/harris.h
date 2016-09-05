@@ -9,16 +9,16 @@
 
 namespace PMVS3 {
 
-class Charris: public Cdetector {
+class Harris: public Detector {
  public:
   void run(const std::vector<unsigned char>& image,
 	   const std::vector<unsigned char>& mask,
 	   const std::vector<unsigned char>& edge,           
 	   const int width, const int height,	   
 	   const int gspeedup, const float sigma,
-	   std::multiset<Cpoint> & result);
+       std::multiset<Point> & result);
 
-  virtual ~Charris() {
+  virtual ~Harris() {
   }
   
  protected:

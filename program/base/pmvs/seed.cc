@@ -10,10 +10,10 @@ using namespace PMVS3;
 using namespace Patch;
 using namespace std;
 
-Cseed::Cseed(CfindMatch& findMatch) : m_fm(findMatch) {
+Seed::Seed(FindMatch& findMatch) : m_fm(findMatch) {
 }
 
-void Cseed::init(const std::vector<std::vector<Cpoint> >& points) {
+void Seed::init(const std::vector<std::vector<Point> >& points) {
   m_ppoints.clear();
   m_ppoints.resize(m_fm.m_num);
 
@@ -26,10 +26,10 @@ void Cseed::init(const std::vector<std::vector<Cpoint> >& points) {
   readPoints(points);
 }
 
-void Cseed::readPoints(const std::vector<std::vector<Cpoint> >& points) {
+void Seed::readPoints(const std::vector<std::vector<Point> >& points) {
   for (int index = 0; index < m_fm.m_num; ++index) {
     for (int i = 0; i < (int)points[index].size(); ++i) {
-      Ppoint ppoint(new Cpoint(points[index][i]));
+      Ppoint ppoint(new Point(points[index][i]));
       ppoint->m_itmp = index;
       const int ix = ((int)floor(ppoint->m_icoord[0] + 0.5f)) / m_fm.m_csize;
       const int iy = ((int)floor(ppoint->m_icoord[1] + 0.5f)) / m_fm.m_csize;
@@ -39,7 +39,7 @@ void Cseed::readPoints(const std::vector<std::vector<Cpoint> >& points) {
   }
 }
 
-void Cseed::run(void) {
+void Seed::run(void) {
   m_fm.m_count = 0;
   m_fm.m_jobs.clear();
   m_scounts.resize(m_fm.m_CPU);
@@ -98,7 +98,7 @@ void Cseed::run(void) {
        << 100 * (pass + fail1) / (float)trial << endl;
 }
 
-void Cseed::initialMatchThread(void) {
+void Seed::initialMatchThread(void) {
   mtx_lock(&m_fm.m_lock);
   const int id = m_fm.m_count++;
   mtx_unlock(&m_fm.m_lock);
@@ -118,16 +118,16 @@ void Cseed::initialMatchThread(void) {
  }
 }
 
-int Cseed::initialMatchThreadTmp(void* arg) {
-  ((Cseed*)arg)->initialMatchThread();
+int Seed::initialMatchThreadTmp(void* arg) {
+  ((Seed*)arg)->initialMatchThread();
   return 0;
 }
 
-void Cseed::clear(void) {
+void Seed::clear(void) {
   vector<vector<vector<Ppoint> > >().swap(m_ppoints);
 }
 
-void Cseed::initialMatch(const int index, const int id) {
+void Seed::initialMatch(const int index, const int id) {
   vector<int> indexes;
   m_fm.m_optim.collectImages(index, indexes);
 
@@ -201,8 +201,8 @@ void Cseed::initialMatch(const int index, const int id) {
   cerr << '(' << index << ',' << totalcount << ')' << flush;
 }
 
-void Cseed::collectCells(const int index0, const int index1,
-                         const Cpoint& p0, std::vector<Vec2i>& cells) {
+void Seed::collectCells(const int index0, const int index1,
+                         const Point& p0, std::vector<Vec2i>& cells) {
   Vec3 point(p0.m_icoord[0], p0.m_icoord[1], p0.m_icoord[2]);
 #ifdef DEBUG
   if (p0.m_icoord[2] != 1.0f) {
@@ -257,8 +257,8 @@ void Cseed::collectCells(const int index0, const int index1,
 
 // make sorted array of feature points in images, that satisfy the
 // epipolar geometry coming from point in image
-void Cseed::collectCandidates(const int index, const std::vector<int>& indexes,
-                              const Cpoint& point, std::vector<Ppoint>& vcp) {
+void Seed::collectCandidates(const int index, const std::vector<int>& indexes,
+                              const Point& point, std::vector<Ppoint>& vcp) {
   const Vec3 p0(point.m_icoord[0], point.m_icoord[1], 1.0);
   for (int i = 0; i < (int)indexes.size(); ++i) {        
     const int indexid = indexes[i];
@@ -278,7 +278,7 @@ void Cseed::collectCandidates(const int index, const std::vector<int>& indexes,
       vector<Ppoint>::iterator begin = m_ppoints[indexid][index2].begin();
       vector<Ppoint>::iterator end = m_ppoints[indexid][index2].end();
       while (begin != end) {
-        Cpoint& rhs = **begin;
+        Point& rhs = **begin;
         // ? use type to reject candidates?
         if (point.m_type != rhs.m_type) {
           ++begin;
@@ -320,7 +320,7 @@ void Cseed::collectCandidates(const int index, const std::vector<int>& indexes,
   sort(vcp.begin(), vcp.end());
 }
 
-int Cseed::canAdd(const int index, const int x, const int y) {
+int Seed::canAdd(const int index, const int x, const int y) {
   if (!m_fm.m_pss.getMask(index, m_fm.m_csize * x, m_fm.m_csize * y, m_fm.m_level))
     return 0;
 
@@ -340,8 +340,8 @@ int Cseed::canAdd(const int index, const int x, const int y) {
   return 1;
 }
 
-void Cseed::unproject(const int index0, const int index1,
-                      const Cpoint& p0, const Cpoint& p1,
+void Seed::unproject(const int index0, const int index1,
+                      const Point& p0, const Point& p1,
                       Vec4f& coord) const{
   Mat4 A;
   A[0][0] =
@@ -416,7 +416,7 @@ void Cseed::unproject(const int index0, const int index1,
 }		       
 
 // starting with (index, indexs), set visible images by looking at correlation.
-int Cseed::initialMatchSub(const int index0, const int index1,
+int Seed::initialMatchSub(const int index0, const int index1,
                            const int id, Cpatch& patch) {
   //----------------------------------------------------------------------
   patch.m_images.clear();

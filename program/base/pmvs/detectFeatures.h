@@ -17,16 +17,16 @@ namespace Image {
 
 namespace PMVS3 {
 
-class CdetectFeatures {
+class DetectFeatures {
  public:
-  CdetectFeatures(void);
-  virtual ~CdetectFeatures();
+  DetectFeatures(void);
+  virtual ~DetectFeatures();
 
   void run(const Image::CphotoSetS& pss,
            const int num, const int csize, const int level,
            const int CPU = 1);
 
-  std::vector<std::vector<Cpoint> > m_points;
+  std::vector<std::vector<Point> > m_points;
   
  protected:
   const Image::CphotoSetS* m_ppss;

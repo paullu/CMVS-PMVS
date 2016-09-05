@@ -5,15 +5,15 @@
 #include "point.h"
 
 namespace PMVS3 {
-class Cdetector {
+class Detector {
  public:
   static void setGaussD(const float sigmaD, std::vector<float>& gaussD);
   static void setGaussI(const float sigmaI, std::vector<float>& gaussI);
-  virtual ~Cdetector() {
+  virtual ~Detector() {
   }
   
  protected:
-  static float setThreshold(std::multiset<Cpoint>& grid);
+  static float setThreshold(std::multiset<Point>& grid);
   int isCloseBoundary(const int x, const int y, const int margin) const;
   int m_width;
   int m_height;

@@ -7,11 +7,11 @@
 
 namespace PMVS3 {
   
-class CfindMatch;
+class FindMatch;
   
-class Cfilter {
+class Filter {
  public:
-  Cfilter(CfindMatch& findMatch);
+  Filter(FindMatch& findMatch);
 
   void init(void);
   void run(void);
@@ -64,7 +64,7 @@ class Cfilter {
   void filterNeighborThread(void);
   static int filterNeighborThreadTmp(void* arg);
   
-  CfindMatch& m_fm;
+  FindMatch& m_fm;
   
 };
 };

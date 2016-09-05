@@ -6,7 +6,7 @@
 
 namespace PMVS3 {
 
-class CfindMatch;
+class FindMatch;
 
 class P_compare {
 public:
@@ -15,9 +15,9 @@ public:
   }
 };
  
-class CpatchOrganizerS {
+class PatchOrganizerS {
  public:
-  CpatchOrganizerS(CfindMatch& findMatch);
+  PatchOrganizerS(FindMatch& findMatch);
 
   void init(void);
   void collectPatches(const int target = 0);
@@ -97,7 +97,7 @@ class CpatchOrganizerS {
   static Patch::Ppatch m_BACKGROUND;
   
  protected:
-  CfindMatch& m_fm;
+  FindMatch& m_fm;
 };
 };
 

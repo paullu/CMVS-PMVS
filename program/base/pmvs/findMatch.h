@@ -22,12 +22,12 @@
 
 namespace PMVS3 {
   
-class CfindMatch {
+class FindMatch {
  public:
-  CfindMatch(void);
-  virtual ~CfindMatch();
+  FindMatch(void);
+  virtual ~FindMatch();
 
-  void init(const PMVS3::Soption& option);
+  void init(const PMVS3::Option& option);
   void run(void);
   void write(const std::string prefix, bool bExportPLY, bool bExportPatch, bool bExportPSet);
   
@@ -144,17 +144,17 @@ class CfindMatch {
   // Images
   Image::CphotoSetS m_pss;
   // Patch organizer
-  CpatchOrganizerS m_pos;
+  PatchOrganizerS m_pos;
   
   // Seed generator
-  Cseed m_seed;
+  Seed m_seed;
   // Patch expansion
-  Cexpand m_expand;
+  Expand m_expand;
  public:
   // Patch filter
-  Cfilter m_filter;
+  Filter m_filter;
   // Patch optimizer
-  Coptim m_optim;
+  Optim m_optim;
 
   int m_debug;
  protected:

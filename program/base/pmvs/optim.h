@@ -6,11 +6,11 @@
 
 namespace PMVS3 {
   
-class CfindMatch;
+class FindMatch;
  
-class Coptim {
+class Optim {
  public:
-  Coptim(CfindMatch& findMatch);
+  Optim(FindMatch& findMatch);
 
   void init(void);
 
@@ -127,8 +127,8 @@ class Coptim {
   
   void setAxesScales(void);
   
-  static Coptim* m_one;  
-  CfindMatch& m_fm;
+  static Optim* m_one;
+  FindMatch& m_fm;
   
   //-----------------------------------------------------------------
   // Axes

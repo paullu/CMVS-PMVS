@@ -9,14 +9,14 @@ using namespace PMVS3;
 using namespace Patch;
 using namespace std;
 
-Ppatch CpatchOrganizerS::m_MAXDEPTH(new Cpatch());
-Ppatch CpatchOrganizerS::m_BACKGROUND(new Cpatch());
+Ppatch PatchOrganizerS::m_MAXDEPTH(new Cpatch());
+Ppatch PatchOrganizerS::m_BACKGROUND(new Cpatch());
 
-CpatchOrganizerS::CpatchOrganizerS(CfindMatch& findMatch) : m_fm(findMatch) {
+PatchOrganizerS::PatchOrganizerS(FindMatch& findMatch) : m_fm(findMatch) {
 }
 
 // change the contents of m_images from images to indexes
-void CpatchOrganizerS::image2index(Cpatch& patch) {
+void PatchOrganizerS::image2index(Cpatch& patch) {
   // first image has to be target image
   vector<int> newimages;
   for (int i = 0; i < (int)patch.m_images.size(); ++i) {
@@ -42,14 +42,14 @@ void CpatchOrganizerS::image2index(Cpatch& patch) {
 }
 
 // change the contents of m_images from indexes to images
-void CpatchOrganizerS::index2image(Cpatch& patch) {
+void PatchOrganizerS::index2image(Cpatch& patch) {
   for (int i = 0; i < (int)patch.m_images.size(); ++i)
     patch.m_images[i] = m_fm.m_pss.m_images[patch.m_images[i]];
   for (int i = 0; i < (int)patch.m_vimages.size(); ++i)
     patch.m_vimages[i] = m_fm.m_pss.m_images[patch.m_vimages[i]];
 }
 
-void CpatchOrganizerS::init(void) {
+void PatchOrganizerS::init(void) {
   m_pgrids.clear();   m_pgrids.resize(m_fm.m_tnum);
   m_vpgrids.clear();  m_vpgrids.resize(m_fm.m_tnum);
   m_dpgrids.clear();  m_dpgrids.resize(m_fm.m_tnum);
@@ -75,7 +75,7 @@ void CpatchOrganizerS::init(void) {
   }
 }
 
-void CpatchOrganizerS::writePatches2(const std::string prefix, bool bExportPLY, bool bExportPatch, bool bExportPSet) {
+void PatchOrganizerS::writePatches2(const std::string prefix, bool bExportPLY, bool bExportPatch, bool bExportPSet) {
   collectPatches(1);
   
   if (bExportPLY)
@@ -118,7 +118,7 @@ void CpatchOrganizerS::writePatches2(const std::string prefix, bool bExportPLY, 
   }
 }
 
-void CpatchOrganizerS::readPatches(void) {
+void PatchOrganizerS::readPatches(void) {
   // Read-in existing reconstructed points. set m_fix to one for non-targeting images
   for (int i = 0; i < m_fm.m_tnum; ++i) {
     const int image = m_fm.m_images[i];
@@ -191,7 +191,7 @@ void CpatchOrganizerS::readPatches(void) {
   }
 }
 
-void CpatchOrganizerS::collectPatches(const int target) {
+void PatchOrganizerS::collectPatches(const int target) {
   m_ppatches.clear();
 
   for (int index = 0; index < m_fm.m_tnum; ++index) {
@@ -221,7 +221,7 @@ void CpatchOrganizerS::collectPatches(const int target) {
   }
 }
 
-void CpatchOrganizerS::collectPatches(std::priority_queue<Patch::Ppatch,
+void PatchOrganizerS::collectPatches(std::priority_queue<Patch::Ppatch,
                                       std::vector<Patch::Ppatch>,
                                       P_compare>& pqpatches) {
   for (int index = 0; index < m_fm.m_tnum; ++index) {
@@ -238,7 +238,7 @@ void CpatchOrganizerS::collectPatches(std::priority_queue<Patch::Ppatch,
   }
 }
 
-void CpatchOrganizerS::collectPatches(const int index,
+void PatchOrganizerS::collectPatches(const int index,
                                      std::priority_queue<Patch::Ppatch, std::vector<Patch::Ppatch>,
                                       P_compare>& pqpatches) {
   m_fm.m_imageLocks[index].wrlock();
@@ -258,7 +258,7 @@ void CpatchOrganizerS::collectPatches(const int index,
 }
 
 // Should be used only for writing
-void CpatchOrganizerS::collectNonFixPatches(const int index,
+void PatchOrganizerS::collectNonFixPatches(const int index,
                                       std::vector<Patch::Ppatch>& ppatches) {
   m_fm.m_imageLocks[index].wrlock();;
   for (int i = 0; i < (int)m_pgrids[index].size(); ++i) {
@@ -275,7 +275,7 @@ void CpatchOrganizerS::collectNonFixPatches(const int index,
   m_fm.m_imageLocks[index].unlock();
 }
 
-void CpatchOrganizerS::clearFlags(void) {
+void PatchOrganizerS::clearFlags(void) {
   vector<Ppatch>::iterator bppatch = m_ppatches.begin();
   vector<Ppatch>::iterator eppatch = m_ppatches.end();
 
@@ -285,7 +285,7 @@ void CpatchOrganizerS::clearFlags(void) {
   }
 }
 
-void CpatchOrganizerS::clearCounts(void) {
+void PatchOrganizerS::clearCounts(void) {
   for (int index = 0; index < m_fm.m_tnum; ++index) {
     vector<unsigned char>::iterator begin = m_counts[index].begin();
     vector<unsigned char>::iterator end = m_counts[index].end();
@@ -296,7 +296,7 @@ void CpatchOrganizerS::clearCounts(void) {
   }
 }
 
-void CpatchOrganizerS::addPatch(Patch::Ppatch& ppatch) {
+void PatchOrganizerS::addPatch(Patch::Ppatch& ppatch) {
   // First handle m_vimages
   vector<int>::iterator bimage = ppatch->m_images.begin();
   vector<int>::iterator eimage = ppatch->m_images.end();
@@ -337,7 +337,7 @@ void CpatchOrganizerS::addPatch(Patch::Ppatch& ppatch) {
   updateDepthMaps(ppatch);
 }
 
-void CpatchOrganizerS::updateDepthMaps(Ppatch& ppatch) {
+void PatchOrganizerS::updateDepthMaps(Ppatch& ppatch) {
   for (int image = 0; image < m_fm.m_tnum; ++image) {
     const Vec3f icoord = m_fm.m_pss.project(image, ppatch->m_coord, m_fm.m_level);
 
@@ -371,7 +371,7 @@ void CpatchOrganizerS::updateDepthMaps(Ppatch& ppatch) {
   }
 }
 
-void CpatchOrganizerS::setGridsImages(Patch::Cpatch& patch,
+void PatchOrganizerS::setGridsImages(Patch::Cpatch& patch,
                                      const std::vector<int>& images) const {
   patch.m_images.clear();
   patch.m_grids.clear();
@@ -390,11 +390,11 @@ void CpatchOrganizerS::setGridsImages(Patch::Cpatch& patch,
   }
 }
 
-void CpatchOrganizerS::setGrids(Ppatch& ppatch) const{
+void PatchOrganizerS::setGrids(Ppatch& ppatch) const{
   setGrids(*ppatch);
 }
 
-void CpatchOrganizerS::setGrids(Cpatch& patch) const{
+void PatchOrganizerS::setGrids(Cpatch& patch) const{
   patch.m_grids.clear();
   for (int i = 0; i < (int)patch.m_images.size(); ++i) {
     const int image = patch.m_images[i];
@@ -405,11 +405,11 @@ void CpatchOrganizerS::setGrids(Cpatch& patch) const{
   }
 }
 
-void CpatchOrganizerS::setVImagesVGrids(Ppatch& ppatch) {
+void PatchOrganizerS::setVImagesVGrids(Ppatch& ppatch) {
   setVImagesVGrids(*ppatch);
 }
 
-void CpatchOrganizerS::setVImagesVGrids(Cpatch& patch) {
+void PatchOrganizerS::setVImagesVGrids(Cpatch& patch) {
   vector<int> used;
   used.resize(m_fm.m_tnum);
   fill(used.begin(), used.end(), 0);
@@ -445,7 +445,7 @@ void CpatchOrganizerS::setVImagesVGrids(Cpatch& patch) {
   }
 }
 
-void CpatchOrganizerS::removePatch(const Ppatch& ppatch) {
+void PatchOrganizerS::removePatch(const Ppatch& ppatch) {
   for (int i = 0; i < (int)ppatch->m_images.size(); ++i) {
     const int image = ppatch->m_images[i];
     if (m_fm.m_tnum <= image)
@@ -479,7 +479,7 @@ void CpatchOrganizerS::removePatch(const Ppatch& ppatch) {
   }
 }
 
-int CpatchOrganizerS::isVisible0(const Cpatch& patch, const int image,
+int PatchOrganizerS::isVisible0(const Cpatch& patch, const int image,
                                 int& ix, int& iy,
                                 const float strict, const int lock) {
   const Vec3f icoord =
@@ -490,7 +490,7 @@ int CpatchOrganizerS::isVisible0(const Cpatch& patch, const int image,
   return isVisible(patch, image, ix, iy, strict, lock);
 }  
 
-int CpatchOrganizerS::isVisible(const Cpatch& patch, const int image,
+int PatchOrganizerS::isVisible(const Cpatch& patch, const int image,
                                const int& ix, const int& iy,
                                const float strict, const int lock) {
   const int& gwidth = m_gwidths[image];
@@ -532,7 +532,7 @@ int CpatchOrganizerS::isVisible(const Cpatch& patch, const int image,
     return 0;
 }  
 
-void CpatchOrganizerS::findNeighbors(const Patch::Cpatch& patch,
+void PatchOrganizerS::findNeighbors(const Patch::Cpatch& patch,
                                      std::vector<Patch::Ppatch>& neighbors,
                                      const int lock, const float scale,
                                      const int margin,
@@ -658,7 +658,7 @@ void CpatchOrganizerS::findNeighbors(const Patch::Cpatch& patch,
   neighbors.erase(unique(neighbors.begin(), neighbors.end()), neighbors.end());
 }
 
-float CpatchOrganizerS::computeUnit(const Patch::Cpatch& patch) const{
+float PatchOrganizerS::computeUnit(const Patch::Cpatch& patch) const{
   float unit = 0.0f;
   for (int i = 0; i < (int)patch.m_images.size(); ++i)
     unit += m_fm.m_optim.getUnit(patch.m_images[i], patch.m_coord);
@@ -667,7 +667,7 @@ float CpatchOrganizerS::computeUnit(const Patch::Cpatch& patch) const{
   return unit;
 }  
 
-void CpatchOrganizerS::setScales(Patch::Cpatch& patch) const {
+void PatchOrganizerS::setScales(Patch::Cpatch& patch) const {
   const float unit = m_fm.m_optim.getUnit(patch.m_images[0], patch.m_coord);
   const float unit2 = 2.0f * unit;
   Vec4f ray = patch.m_coord - m_fm.m_pss.m_photos[patch.m_images[0]].m_center;
@@ -692,7 +692,7 @@ void CpatchOrganizerS::setScales(Patch::Cpatch& patch) const {
 }
 
 // write out results
-void CpatchOrganizerS::writePLY(const std::vector<Ppatch>& patches,
+void PatchOrganizerS::writePLY(const std::vector<Ppatch>& patches,
                                 const std::string filename) {
   ofstream ofstr;
   ofstr.open(filename.c_str());
@@ -781,7 +781,7 @@ void CpatchOrganizerS::writePLY(const std::vector<Ppatch>& patches,
   ofstr.close();  
 }
 
-void CpatchOrganizerS::writePLY(const std::vector<Ppatch>& patches,
+void PatchOrganizerS::writePLY(const std::vector<Ppatch>& patches,
                                 const std::string filename,
                                 const std::vector<Vec3i>& colors) {
   ofstream ofstr;

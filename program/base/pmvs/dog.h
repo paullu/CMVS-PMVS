@@ -8,7 +8,7 @@
 #include "point.h"
 
 namespace PMVS3 {
-class Cdog: public Cdetector {
+class Dog: public Detector {
  public:
   void run (const std::vector<unsigned char>& image,
 	    const std::vector<unsigned char>& mask,
@@ -17,9 +17,9 @@ class Cdog: public Cdetector {
 	    const int gspeedup,
 	    const float firstScale,   // 1.4f
 	    const float lastScale,    // 4.0f
-	    std::multiset<Cpoint> & result);
+        std::multiset<Point> & result);
 
-  virtual ~Cdog() {
+  virtual ~Dog() {
   }
   
  protected:

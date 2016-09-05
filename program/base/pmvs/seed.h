@@ -9,38 +9,38 @@
 #include "tinycthread.h"
 
 namespace PMVS3 {
-class CfindMatch;
-typedef boost::shared_ptr<Cpoint> Ppoint;
+class FindMatch;
+typedef boost::shared_ptr<Point> Ppoint;
   
-class Cseed {
+class Seed {
  public:
-  Cseed(CfindMatch& findMatch);
-  virtual ~Cseed() {};
+  Seed(FindMatch& findMatch);
+  virtual ~Seed() {};
 
-  void init(const std::vector<std::vector<Cpoint> >& points);
+  void init(const std::vector<std::vector<Point> >& points);
   void run(void);
   void clear(void);
 
  protected:
-  void readPoints(const std::vector<std::vector<Cpoint> >& points);
+  void readPoints(const std::vector<std::vector<Point> >& points);
   int canAdd(const int index, const int x, const int y);  
 
   void initialMatch(const int index, const int id);
   void collectCells(const int index0, const int index1,
-                    const Cpoint& p0, std::vector<Vec2i>& cells);
+                    const Point& p0, std::vector<Vec2i>& cells);
   
   void collectCandidates(const int index, const std::vector<int>& indexes,
-                         const Cpoint& point, std::vector<Ppoint>& vcp);
+                         const Point& point, std::vector<Ppoint>& vcp);
 
   int initialMatchSub(const int index0, const int index1,
                       const int id, Patch::Cpatch& patch);
   
   void unproject(const int index0, const int index1,
-                 const Cpoint& p0, const Cpoint& p1,
+                 const Point& p0, const Point& p1,
                  Vec4f& coord) const;
 
   //----------------------------------------------------------------------
-  CfindMatch& m_fm;
+  FindMatch& m_fm;
   // points in a grid. For each index, grid
   std::vector<std::vector<std::vector<Ppoint> > > m_ppoints;
 
